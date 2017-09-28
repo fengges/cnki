@@ -15,7 +15,7 @@ class CnkiItem(scrapy.Item):
 class CnkiPassItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    # can you see
+    # can you see hehe
     pass
 
 class CnkiListPassItem(scrapy.Item):
