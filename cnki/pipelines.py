@@ -9,6 +9,7 @@ from cnki.items import CnkiKeyWordItem
 from cnki.spiders.mysql import Mysql
 
 class CnkiPipeline(object):
+    #FFFFFFF
     mysql=Mysql()
     def process_item(self, item, spider):
         if type(item)==CnkiListPassItem:
