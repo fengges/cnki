@@ -7,20 +7,25 @@
 
 import scrapy
 
-class CnkiItem(scrapy.Item):
+class CnkiKeyWordItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
+    word=scrapy.Field()
     pass
 
 class CnkiPassItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    # can you see hehe
+
     pass
 
 class CnkiListPassItem(scrapy.Item):
     # define the fields for your item here like:
     name = scrapy.Field()
     url=scrapy.Field()
-
+    pubdata=scrapy.Field()
+    cite=scrapy.Field()
+    download=scrapy.Field()
+    source=scrapy.Field()
+    type=scrapy.Field()
     pass
