@@ -20,6 +20,7 @@ class CnkiListSpider(scrapy.Spider):
     allPage=1
     allowed_domains = ['']
     start_urls = ['']
+    #dkksdf
 
     def parse(self, response):
 
