@@ -1,5 +1,5 @@
 import pymysql.cursors
-
+from scrapy import cmdline
 # 连接数据库
 class Mysql(object):
     connect = pymysql.Connect(
@@ -44,3 +44,8 @@ class Mysql(object):
         params=(item['url'],item['name'],item['pubdata'],item['cite'],item['citeUrl'],item['download'],item['source'],item['type'] )
         self.cursor.execute(sql,params)
         self.connect.commit()
+
+    def startSpider(self,name):
+        con = "scrapy crawl " + name
+        print(con+" "+con)
+        cmdline.execute(con.split())

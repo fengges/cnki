@@ -5,7 +5,7 @@ import urllib
 import time
 import re
 import json
-import start
+
 from scrapy.http import Request
 from cnki.items import CnkiListPassItem
 from cnki.items import CnkiKeyWordItem
@@ -101,8 +101,7 @@ class CnkiPassSpider(scrapy.Spider):
                 self.keyword = ''
                 print("update keyword")
                 # self.goSleep(60)
-                self.getCookie={}
-                startSpider("cnkiOne")
+                self.cookie={}
                 return
                 #yield scrapy.Request(self.start_urls[0],dont_filter=True,cookies=self.cookie , callback=self.parse)
             else :

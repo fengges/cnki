@@ -5,7 +5,8 @@ import urllib
 import time
 import re
 import json
-import start
+
+from scrapy.crawler import CrawlerProcess
 from scrapy.http import Request
 from cnki.items import CnkiListPassItem
 from cnki.items import CnkiKeyWordItem
@@ -36,6 +37,8 @@ class CnkiOneSpider(scrapy.Spider):
 
     def spider_keyWord(self, response):
         keyword=urllib.parse.quote(self.getKeyWord())
+        con=str(response.body,"utf-8")
+        vue = urllib.parse.unquote(con)
         url="http://search.cnki.net/sug/su.ashx?action=getsmarttips&kw="+keyword+"&t=%E4%B8%BB%E9%A2%98&dbt=SCDB&attr=1&p=0.8080994242046629&td="+str(time.time())
         self.getCookie(response)
         yield scrapy.Request(url, cookies=self.cookie, callback=self.spide_list)
@@ -101,10 +104,14 @@ class CnkiOneSpider(scrapy.Spider):
                 self.keyword = ''
                 print("update keyword")
                 # self.goSleep(60)
-                self.getCookie={}
-                startSpider("cnki_pass")
-                return
-                #yield scrapy.Request(self.start_urls[0],dont_filter=True,cookies=self.cookie , callback=self.parse)
+                self.cookie={}
+                # self.mysql.startSpider("cnki_pass")
+                # process = CrawlerProcess()
+                # process.crawl(CnkiOneSpider)
+                # process.start()
+                self.goSleep(6)
+                #return
+                # yield scrapy.Request(self.start_urls[0],dont_filter=True,cookies=self.cookie , callback=self.parse)
             else :
                 url = self.getPageUrl(response)
                 yield scrapy.Request(url, cookies=self.cookie, callback=self.prase_list)
@@ -131,7 +138,7 @@ class CnkiOneSpider(scrapy.Spider):
 
     def goSleep(self,t):
         for i in range(1,t):
-             # print("sleep "+str(i)+" seconds")
+            print("sleep "+str(i)+" seconds")
             time.sleep(1)
     def getCookie(self,response):
         cookie2 = response.headers.getlist('Set-Cookie')

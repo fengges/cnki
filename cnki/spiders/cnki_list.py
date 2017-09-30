@@ -5,7 +5,7 @@ import urllib
 import time
 import re
 import json
-import start
+
 from scrapy.http import Request
 from cnki.items import CnkiListPassItem
 from cnki.items import CnkiKeyWordItem
