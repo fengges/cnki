@@ -40,8 +40,10 @@ COOKIES_ENABLED = True
 
 # Override the default request headers:
 DEFAULT_REQUEST_HEADERS = {
-  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+ 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
  'Accept-Language': 'en',
+ 'Connection':'keep-alive',
+ 'Pragma':'no-cache'
 }
 
 # Enable or disable spider middlewares

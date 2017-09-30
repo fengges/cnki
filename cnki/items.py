@@ -26,6 +26,7 @@ class CnkiListPassItem(scrapy.Item):
     url=scrapy.Field()
     pubdata=scrapy.Field()
     cite=scrapy.Field()
+    citeUrl=scrapy.Field()
     download=scrapy.Field()
     source=scrapy.Field()
     type=scrapy.Field()

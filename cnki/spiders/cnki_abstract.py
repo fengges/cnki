@@ -19,7 +19,7 @@ class CnkiListSpider(scrapy.Spider):
     page=1
     allPage=1
     allowed_domains = ['']
-    start_urls = ['']
+    start_urls = ['www.baidu.com']
     #dkksdf
 
     def parse(self, response):

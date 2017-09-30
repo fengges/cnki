@@ -11,9 +11,9 @@ from cnki.items import CnkiListPassItem
 from cnki.items import CnkiKeyWordItem
 from cnki.spiders.mysql import Mysql
 
-class CnkiListSpider(scrapy.Spider):
-    mysql=Mysql()
-    name = 'test'
+class CnkiOneSpider(scrapy.Spider):
+    name = 'cnkiOne'
+    mysql = Mysql()
     cookie={}
     keyword=''
     page=1

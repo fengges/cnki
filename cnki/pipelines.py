@@ -21,6 +21,11 @@ class CnkiPipeline(object):
 
     def cnkiList(self,item):
         item['url']=item['url'].replace("/kns","http://kns.cnki.net/KCMS",1)
+        if len(item['download']):
+            pass
+        else :
+            item['download']=0
+        item['citeUrl'] = item['citeUrl'].replace("TPI_openwindow('","http://kns.cnki.net").replace( "'aaa','status=yes,scrollbars=yes',event)",'').strip().replace("',","")
         self.mysql.insertPassList(item)
 
     def cnkiKeyWord(self,item):
