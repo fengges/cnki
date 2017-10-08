@@ -75,9 +75,10 @@ class CnkiOneSpider(scrapy.Spider):
             self.goSleep(60)
             yield scrapy.Request("http://www.baidu.com?time="+str(time.time()), callback=self.parse)
         else:
+            print(str(response.body,'utf-8'))
             pass_list = response.xpath("//table[@class='GridTableContent']/tr[not(@class)]")
             for passage in pass_list:
-                try:
+                # try:
                     item=CnkiListPassItem()
                     item['url'] = self.setValue(passage.xpath('./td[2]/a/@href'))
                     name =self.setValue(passage.xpath("./td[2]/a"))
@@ -95,8 +96,8 @@ class CnkiOneSpider(scrapy.Spider):
                     item['type']=1
                     print(item)
                     break
-                except:
-                    pass
+                # except:
+                #     pass
             self.page += 1
             if self.page > 2:
                 self.page = 1
@@ -111,7 +112,7 @@ class CnkiOneSpider(scrapy.Spider):
                 # process.start()
                 self.goSleep(6)
                 #return
-                # yield scrapy.Request(self.start_urls[0],dont_filter=True,cookies=self.cookie , callback=self.parse)
+                yield scrapy.Request(self.start_urls[0],dont_filter=True,cookies=self.cookie , callback=self.parse)
             else :
                 url = self.getPageUrl(response)
                 yield scrapy.Request(url, cookies=self.cookie, callback=self.prase_list)
