@@ -115,7 +115,7 @@ class CnkiPassSpider(scrapy.Spider):
             keyword = urllib.parse.quote(self.getKeyWord())
             url = "http://kns.cnki.net/kns/brief/brief.aspx?pagename=ASP.brief_default_result_aspx&dbPrefix=SCDB&dbCatalog=%e4%b8%ad%e5%9b%bd%e5%ad%a6%e6%9c%af%e6%96%87%e7%8c%ae%e7%bd%91%e7%bb%9c%e5%87%ba%e7%89%88%e6%80%bb%e5%ba%93&ConfigFile=SCDBINDEX.xml&research=off&t=" + str(time.time()) + "&keyValue=" + keyword + "S=1&RecordsPerPage=50"
         else :
-            url = "http://kns.cnki.net/kns/brief/brief.aspx?curpage=" + str(self.page) + "&RecordsPerPage=50&QueryID="+self.QueryID+"&ID=&turnpage=1&tpagemode=L&dbPrefix=SCDB&Fields=&DisplayMode=listmode&PageName=ASP.brief_default_result_aspx&sKuaKuID=0&t="+ str(time.time())
+            url = "http://kns.cnki.net/kns/brief/brief.aspx?curpage=" + str(self.page) + "&RecordsPerPage=50&QueryID="+str(self.QueryID)+"&ID=&turnpage=1&tpagemode=L&dbPrefix=SCDB&Fields=&DisplayMode=listmode&PageName=ASP.brief_default_result_aspx&sKuaKuID=0&t="+ str(time.time())
         print("page : "+str(self.page))
         return url
 
