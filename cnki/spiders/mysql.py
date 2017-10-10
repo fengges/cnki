@@ -45,8 +45,15 @@ class Mysql(object):
         self.cursor.execute(sql,params)
         self.connect.commit()
 
+    #搜索后更新状态
+    def updatePassList(self, id,add):
+        sql = "update url_list set search=search+"+str(add)+" where id=%s"
+        params = (id)
+        self.cursor.execute(sql, params)
+        self.connect.commit()
+
     #获取论文引用
     def getPassCiteUrl(self):
-        sql = "SELECT id,cite_url from url_list  WHERE  num=(select max(num) from url_list where length(cite_url)!=0 and (search =0 or search=1) )"
+        sql = "SELECT id,url,cite_url from url_list  WHERE  num=(select max(num) from url_list where length(cite_url)!=0 and (search =0 or search=5) )"
         self.cursor.execute(sql)
         return self.cursor.fetchone()
