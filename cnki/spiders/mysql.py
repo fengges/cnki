@@ -5,7 +5,7 @@ class Mysql(object):
         host='localhost',
         port=3306,
         user='root',
-        passwd='123456',
+        passwd='Cr648546845',
         db='cnki',
         charset='utf8'
 )

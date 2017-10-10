@@ -4,8 +4,7 @@
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
-from cnki.items import CnkiListPassItem
-from cnki.items import CnkiKeyWordItem
+from cnki.items import *
 from cnki.spiders.mysql import Mysql
 
 class CnkiPipeline(object):
@@ -17,6 +16,9 @@ class CnkiPipeline(object):
 
         elif type(item)==CnkiKeyWordItem:
             self.cnkiKeyWord(item)
+
+        elif type(item) == CnkiAbstractItem:
+            self.cnkiCnkiAbstract(item)
         return item
 
     def cnkiList(self,item):
@@ -31,6 +33,10 @@ class CnkiPipeline(object):
     def cnkiKeyWord(self,item):
         key=item['word'].split(';')
         for k in key:
-            self.mysql.insertKeyWord(k)
-    def cnkiPass(self,item):
+            k = k.strip()
+            self.mysql.insertKeyWord(k,item['num'])
+
+    def cnkiCnkiAbstract(self,item):
+        self.mysql.insertPassAbstract(item)
+        self.mysql.updatePassList(item['id'],5)
         pass

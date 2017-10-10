@@ -12,6 +12,7 @@ class CnkiKeyWordItem(scrapy.Item):
     # name = scrapy.Field()
     # HHHHHHHH TEST
     word=scrapy.Field()
+    num=scrapy.Field()
     pass
 
 class CnkiPassItem(scrapy.Item):
@@ -30,4 +31,16 @@ class CnkiListPassItem(scrapy.Item):
     download=scrapy.Field()
     source=scrapy.Field()
     type=scrapy.Field()
+    pass
+
+#abstract Item
+class CnkiAbstractItem(scrapy.Item):
+    # define the fields for your item here like:
+    # name = scrapy.Field()
+    # HHHHHHHH TEST
+    id = scrapy.Field()
+    author=scrapy.Field()
+    organization=scrapy.Field()
+    abstract=scrapy.Field()
+    fund=scrapy.Field()
     pass
