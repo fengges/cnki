@@ -28,9 +28,9 @@ class Mysql(object):
         self.connect.commit()
 
     #关键字插入数据库
-    def insertKeyWord(self,key):
+    def insertKeyWord(self,key,num):
         if len(key):
-            sql="INSERT INTO keyword  VALUES (NULL,%s,1,0,now())  ON DUPLICATE KEY UPDATE num=num+1"
+            sql="INSERT INTO keyword  VALUES (NULL,%s,"+str(num)+",0,now())  ON DUPLICATE KEY UPDATE num=num+1"
             params=(key)
             self.cursor.execute(sql,params)
             self.connect.commit()
@@ -54,6 +54,18 @@ class Mysql(object):
 
     #获取论文引用
     def getPassCiteUrl(self):
-        sql = "SELECT id,url,cite_url from url_list  WHERE  num=(select max(num) from url_list where length(cite_url)!=0 and (search =0 or search=5) )"
+        sql = "SELECT id,url,cite_url from url_list  WHERE (search =0 or search=5) and num=(select max(num) from url_list where length(cite_url)!=0 and (search =0 or search=5) )"
         self.cursor.execute(sql)
         return self.cursor.fetchone()
+
+    # 获取论文摘要链接
+    def getPassAbstractUrl(self):
+        sql = "SELECT id,url from url_list  WHERE (search =0 or search=1 ) and num=(select max(num) from url_list where search =0 or search=1 )"
+        self.cursor.execute(sql)
+        return self.cursor.fetchone()
+
+    def insertPassAbstract(self,item):
+        sql="insert into abstract values(%s,%s,%s,%s,%s,now())"
+        params=(item['id'],item['author'],item['organization'].strip(),item['abstract'],item['fund'] )
+        self.cursor.execute(sql,params)
+        self.connect.commit()
