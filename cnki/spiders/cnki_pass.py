@@ -5,7 +5,9 @@ import urllib
 import time
 import re
 import json
-
+from cnki.Pic_distinguish import readCode
+from libsvm.python.svmutil import *
+from libsvm.python.svm import *
 from scrapy.http import Request
 from cnki.items import CnkiListPassItem
 from cnki.items import CnkiKeyWordItem
@@ -17,6 +19,7 @@ class CnkiPassSpider(scrapy.Spider):
     keyword=''
     page=1
     allPage=1
+    num=1
     QueryID=0
     allowed_domains = ['http://www.cnki.net','www.cnki.net','kns.cnki.net','http://www.baidu.com','www.baidu.com','search.cnki.net']
     start_urls = ['http://www.cnki.net']
@@ -55,9 +58,9 @@ class CnkiPassSpider(scrapy.Spider):
     # 循环爬取数据
     def prase_list(self,response):
         if "vericode.aspx" in response.url:# 是否用验证码
-            print("sleep 1 miutues---------")
-            self.goSleep(60)
-            yield scrapy.Request("http://www.baidu.com?time="+str(time.time()), callback=self.spider_start)
+            print("下载验证码，识别验证码")
+            pic_url = 'http://kns.cnki.net/kns/checkcode.aspx?t'
+            yield scrapy.Request(pic_url,dont_filter=True, callback=self.spider_code)
         else:
             if "brief.aspx?pagename=ASP.brief_default_result_aspx&dbPrefix=SCDB" in response.url:  # 判断是否是第一页，获取总页数和查询id
                 num = response.xpath("//div[@class='pagerTitleCell']/text()").extract()[0]
@@ -105,6 +108,24 @@ class CnkiPassSpider(scrapy.Spider):
             else :
                 url = self.getPageUrl(response)
                 yield scrapy.Request(url, callback=self.prase_list)
+
+    def spider_code(self,response):
+        fp = open("cnki/image/test.gif", 'wb')
+        fp.write(response.body)
+        fp.close()
+        code=readCode()
+        self.num+=1
+        back=self.prase_code
+        if self.num==4:
+            self.goSleep(60)
+            self.num=1
+            back=self.spider_start
+        url='http://kns.cnki.net/kns/brief/vericode.aspx?rurl='+'https://www.baidu.com'+'&vericode='+code
+        yield scrapy.Request(url,dont_filter=True, callback=back)
+
+    def prase_code(self, response):
+        yield scrapy.Request(self.getPageUrl(response), dont_filter=True, callback=self.prase_list)
+
     def setValue(self,node):
         if len(node):
             return node.extract()[0]

@@ -21,12 +21,10 @@ class CnkiOneSpider(scrapy.Spider):
     key=''
     url=''
     allpage=0
-    num=0
     allowed_domains = ['http://www.cnki.net','www.cnki.net','kns.cnki.net','http://www.baidu.com','www.baidu.com','search.cnki.net']
     start_urls = ['http://www.cnki.net']
 
     def parse(self, response):
-        self.num+=1
         item=self.mysql.getPassCiteUrl()
         print(item)
         self.id=item[0]
@@ -35,8 +33,6 @@ class CnkiOneSpider(scrapy.Spider):
         self.code = self.getKeyValue(item[2],'scode')
         self.key = self.getKeyValue(item[2],'skey')
         url=self.getUrl(1,'')
-        if self.num==3:
-            return
         yield scrapy.Request(url,callback=self.spider_cite)
 
     def spider_cite(self, response):
@@ -52,7 +48,7 @@ class CnkiOneSpider(scrapy.Spider):
             item['source']=''
             item['cite']=0
             item['type'] = 2
-            #yield item
+            yield item
         if 'page=' in response.url:
             pass
         else:
