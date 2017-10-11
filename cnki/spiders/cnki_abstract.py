@@ -44,7 +44,12 @@ class CnkiListSpider(scrapy.Spider):
             item_abstract['author'] = ",".join(response.xpath("//div[@class='author']/span/a/text()").extract())
             # print ("name:",author)
             #机构
-            item_abstract['organization'] = ",".join(response.xpath("//div[@class='orgn']/span/a/text()").extract())
+            # item_abstract['organization'] = ",".join(response.xpath("//div[@class='orgn']/span/a/text()").extract())
+            organization = ",".join(response.xpath("//div[@class='orgn']/span/a/text()").extract())
+            if len(organization)<255:
+                item_abstract['organization'] = organization
+            else:
+                item_abstract['organization'] = ""
             # print ("organization:", organization)
             #摘要
             item_abstract['abstract'] = response.xpath("//span[@id='ChDivSummary']/text()").extract()[0]

@@ -2,7 +2,7 @@ import pymysql.cursors
 # 连接数据库
 class Mysql(object):
     connect = pymysql.Connect(
-        host='localhost',
+        host='10.6.11.52',
         port=3306,
         user='root',
         passwd='123456',
