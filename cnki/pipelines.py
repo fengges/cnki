@@ -28,8 +28,7 @@ class CnkiPipeline(object):
     def cnkiKey(self,item):
         self.mysql.insertKey(item)
     def cnkiList(self,item):
-        if item['type']==1:
-            item['url']=item['url'].replace("/kns","http://kns.cnki.net/KCMS",1)
+        item['url']=item['url'].replace("/kns","http://kns.cnki.net/KCMS",1)
         if len(item['download']):
             pass
         else :
