@@ -19,6 +19,8 @@ class CnkiPipeline(object):
 
         elif type(item) == CnkiAbstractItem:
             self.cnkiCnkiAbstract(item)
+        elif type(item) == CnkiCiteItem:
+            self.cnkiCnkiCite(item)
         return item
 
     def cnkiList(self,item):
@@ -40,3 +42,7 @@ class CnkiPipeline(object):
         self.mysql.insertPassAbstract(item)
         self.mysql.updatePassList(item['id'],5)
         pass
+
+    def cnkiCnkiCite(self,item):
+        self.mysql.insertCite(item)
+

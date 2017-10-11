@@ -54,7 +54,7 @@ class Mysql(object):
 
     #获取论文引用
     def getPassCiteUrl(self):
-        sql = "SELECT id,url,cite_url from url_list  WHERE (search =0 or search=5) and num=(select max(num) from url_list where length(cite_url)!=0 and (search =0 or search=5) )"
+        sql = "SELECT id,url,cite_url from url_list  WHERE length(cite_url)!=0 and (search =0 or search=5) and type=1 and num=(select max(num) from url_list where length(cite_url)!=0 and type=1 and (search =0 or search=5) )"
         self.cursor.execute(sql)
         return self.cursor.fetchone()
 
@@ -67,5 +67,12 @@ class Mysql(object):
     def insertPassAbstract(self,item):
         sql="insert into abstract values(%s,%s,%s,%s,%s,now())"
         params=(item['id'],item['author'],item['organization'].strip(),item['abstract'],item['fund'] )
+        self.cursor.execute(sql,params)
+        self.connect.commit()
+
+
+    def insertCite(self,item):
+        sql="insert into cite values(null,%s,%s,%s,now())"
+        params=(item['citeId'],item['citeUrl'],item['type'] )
         self.cursor.execute(sql,params)
         self.connect.commit()

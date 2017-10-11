@@ -8,8 +8,7 @@ import json
 
 from scrapy.crawler import CrawlerProcess
 from scrapy.http import Request
-from cnki.items import CnkiListPassItem
-from cnki.items import CnkiKeyWordItem
+from cnki.items import *
 from cnki.spiders.mysql import Mysql
 
 class CnkiOneSpider(scrapy.Spider):
@@ -48,6 +47,11 @@ class CnkiOneSpider(scrapy.Spider):
             item['source']=''
             item['cite']=0
             item['type'] = 2
+            citeItem = CnkiCiteItem()
+            citeItem['citeId'] = self.id
+            citeItem['citeUrl'] = item['url']
+            citeItem['type'] = 1
+            yield citeItem
             yield item
         if 'page=' in response.url:
             pass
@@ -57,7 +61,7 @@ class CnkiOneSpider(scrapy.Spider):
                 self.allpage =self.getAllpage(int(self.setValue(num.xpath('./text()'),0)),10)
                 curdbcode=num.xpath('./@id').extract()[0][3:]
                 for  p in range(2,int(self.allpage+1)):
-                    url=self.getUrl(p,curdbcode)
+                    url = self.getUrl(p, curdbcode)
                     yield scrapy.Request(url, callback=self.spider_cite)
             self.mysql.updatePassList(self.id,1)
             yield scrapy.Request(self.start_urls[0],dont_filter=True, callback=self.parse)

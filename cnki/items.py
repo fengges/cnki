@@ -15,10 +15,12 @@ class CnkiKeyWordItem(scrapy.Item):
     num=scrapy.Field()
     pass
 
-class CnkiPassItem(scrapy.Item):
+class CnkiCiteItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-
+    citeId = scrapy.Field()
+    citeUrl = scrapy.Field()
+    type=scrapy.Field()
     pass
 
 class CnkiListPassItem(scrapy.Item):

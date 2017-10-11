@@ -17,8 +17,8 @@ class CnkiPassSpider(scrapy.Spider):
     name = 'cnki_pass'
     mysql = Mysql()
     keyword=''
-    page=1
-    allPage=1
+    page=60
+    allPage=121
     num=1
     QueryID=0
     allowed_domains = ['http://www.cnki.net','www.cnki.net','kns.cnki.net','http://www.baidu.com','www.baidu.com','search.cnki.net']
@@ -119,9 +119,12 @@ class CnkiPassSpider(scrapy.Spider):
         if self.num==4:
             self.goSleep(60)
             self.num=1
+            self.keyword=''
             back=self.spider_start
-        url='http://kns.cnki.net/kns/brief/vericode.aspx?rurl='+'https://www.baidu.com'+'&vericode='+code
-        yield scrapy.Request(url,dont_filter=True, callback=back)
+            yield scrapy.Request('https://www.baidu.com',cookies={}, dont_filter=True, callback=back)
+        else:
+            url='http://kns.cnki.net/kns/brief/vericode.aspx?rurl='+'https://www.baidu.com'+'&vericode='+code
+            yield scrapy.Request(url,dont_filter=True, callback=back)
 
     def prase_code(self, response):
         yield scrapy.Request(self.getPageUrl(response), dont_filter=True, callback=self.prase_list)
