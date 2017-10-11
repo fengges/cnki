@@ -24,7 +24,7 @@ class CnkiPipeline(object):
         return item
 
     def cnkiList(self,item):
-        item['url']=item['url'].replace("/kns","http://kns.cnki.net/KCMS",1)
+        # item['url']=item['url'].replace("/kns","http://kns.cnki.net/KCMS",1)
         if len(item['download']):
             pass
         else :

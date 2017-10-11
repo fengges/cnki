@@ -2,10 +2,10 @@ import pymysql.cursors
 # 连接数据库
 class Mysql(object):
     connect = pymysql.Connect(
-        host='10.6.11.52',
+        host='localhost',
         port=3306,
         user='root',
-        passwd='123456',
+        passwd='Cr648546845',
         db='cnki',
         charset='utf8'
 )
