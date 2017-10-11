@@ -21,10 +21,15 @@ class CnkiPipeline(object):
             self.cnkiCnkiAbstract(item)
         elif type(item) == CnkiCiteItem:
             self.cnkiCnkiCite(item)
-        return item
+        elif type(item) == CnkiKeyItem:
+            self.cnkiKey(item)
 
+        return item
+    def cnkiKey(self,item):
+        self.mysql.insertKey(item)
     def cnkiList(self,item):
-        item['url']=item['url'].replace("/kns","http://kns.cnki.net/KCMS",1)
+        if item['type']==1:
+            item['url']=item['url'].replace("/kns","http://kns.cnki.net/KCMS",1)
         if len(item['download']):
             pass
         else :

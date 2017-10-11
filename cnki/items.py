@@ -15,6 +15,14 @@ class CnkiKeyWordItem(scrapy.Item):
     num=scrapy.Field()
     pass
 
+class CnkiKeyItem(scrapy.Item):
+    # define the fields for your item here like:
+    # name = scrapy.Field()
+    # HHHHHHHH TEST
+    word=scrapy.Field()
+    page=scrapy.Field()
+    allpage=scrapy.Field()
+    pass
 class CnkiCiteItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
