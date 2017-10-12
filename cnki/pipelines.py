@@ -40,7 +40,7 @@ class CnkiPipeline(object):
 
     def cnkiCnkiAbstract(self,item):
         self.mysql.insertPassAbstract(item)
-        self.mysql.updatePassList(item['id'],5)
+        self.mysql.updatePassList(item['id'],100)
         pass
 
     def cnkiCnkiCite(self,item):

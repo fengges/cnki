@@ -33,6 +33,7 @@ class CnkiListPassItem(scrapy.Item):
     download=scrapy.Field()
     source=scrapy.Field()
     type=scrapy.Field()
+    num = scrapy.Field()
     pass
 
 #abstract Item

@@ -65,12 +65,15 @@ class CnkiListSpider(scrapy.Spider):
             item['source'] = ''
             item['cite'] = 0
             item['type'] = 5
+            item['num'] = 7
             citeItem = CnkiCiteItem()
             citeItem['citeId'] = self.PassId
             citeItem['citeUrl'] = item['url']
             citeItem['type'] = 5
             yield citeItem
             yield item
+        self.mysql.updatePassList(self.PassId, 10000)
+
     def getAbstract(self,response):
         # print (str(response.body, 'utf-8'))
         item_abstract = CnkiAbstractItem()
@@ -111,7 +114,7 @@ class CnkiListSpider(scrapy.Spider):
             # self.PassId = self.getPassAbstractUrl()[0]
             # yield scrapy.Request(url, callback=self.getAbstract)
         except:
-            self.mysql.updatePassList(self.PassId, 7)
+            self.mysql.updatePassList(self.PassId, 10)
             # self.PassAbstractUrl = ''
             # url = self.getPassAbstractUrl()[1]
             # self.PassId = self.getPassAbstractUrl()[0]
@@ -131,6 +134,7 @@ class CnkiListSpider(scrapy.Spider):
             item['source']=''
             item['cite']=0
             item['type'] = 4
+            item['num'] = 5
             citeItem = CnkiCiteItem()
             citeItem['citeId'] = self.PassId
             citeItem['citeUrl'] = item['url']
@@ -149,7 +153,7 @@ class CnkiListSpider(scrapy.Spider):
                     url = self.getUrl(p, curdbcode)
                     print(url)
                     yield scrapy.Request(url, callback=self.getReferURL)
-            self.mysql.updatePassList(self.PassId,5)
+            self.mysql.updatePassList(self.PassId,1000)
             yield scrapy.Request(self.start_urls[0],dont_filter=True, callback=self.parse)
 
 

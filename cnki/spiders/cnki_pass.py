@@ -17,8 +17,8 @@ class CnkiPassSpider(scrapy.Spider):
     name = 'cnki_pass'
     mysql = Mysql()
     keyword=''
-    page=60
-    allPage=121
+    page=1
+    allPage=1
     num=1
     QueryID=0
     allowed_domains = ['http://www.cnki.net','www.cnki.net','kns.cnki.net','http://www.baidu.com','www.baidu.com','search.cnki.net']
@@ -93,6 +93,7 @@ class CnkiPassSpider(scrapy.Spider):
                         item['cite']=0
                     item['download'] = self.setValue(passage.xpath("./td[8]/span/a/text()"))
                     item['type']=1
+                    item['num'] = 10
                     yield item
                 except:
                     pass

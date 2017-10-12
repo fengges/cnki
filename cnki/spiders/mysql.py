@@ -40,8 +40,8 @@ class Mysql(object):
 
     #插入论文链接
     def insertPassList(self,item):
-        sql="insert into url_list values(NUll,%s,%s,%s,%s,%s,%s,%s,1,0,%s,now()) ON DUPLICATE KEY UPDATE num=num+1"
-        params=(item['url'],item['name'],item['pubdata'],item['cite'],item['citeUrl'],item['download'],item['source'],item['type'] )
+        sql="insert into url_list values(NUll,%s,%s,%s,%s,%s,%s,%s,%s,0,%s,now()) ON DUPLICATE KEY UPDATE num=num+1"
+        params=(item['url'],item['name'],item['pubdata'],item['cite'],item['citeUrl'],item['download'],item['source'],item['num'],item['type'] )
         self.cursor.execute(sql,params)
         self.connect.commit()
 
@@ -54,7 +54,7 @@ class Mysql(object):
 
     #获取论文引用
     def getPassCiteUrl(self):
-        sql = "SELECT id,url,cite_url from url_list  WHERE length(cite_url)!=0 and (search =0 or search=5) and type=1 and num=(select max(num) from url_list where length(cite_url)!=0 and type=1 and (search =0 or search=5) )"
+        sql = "SELECT id,url,cite_url from url_list  WHERE length(cite_url)!=0 and (mod(search,2)=0) and type=1 and num=(select max(num) from url_list where length(cite_url)!=0 and type=1 and (mod(search,2)=0) )"
         self.cursor.execute(sql)
         return self.cursor.fetchone()
 

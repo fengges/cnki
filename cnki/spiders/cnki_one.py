@@ -47,10 +47,11 @@ class CnkiOneSpider(scrapy.Spider):
             item['source']=''
             item['cite']=0
             item['type'] = 2
+            item['num'] = 5
             citeItem = CnkiCiteItem()
             citeItem['citeId'] = self.id
             citeItem['citeUrl'] = item['url']
-            citeItem['type'] = 1
+            citeItem['type'] = 2
             yield citeItem
             yield item
         if 'page=' in response.url:
