@@ -48,7 +48,7 @@ class CnkiListSpider(scrapy.Spider):
             newURL = self.getUrl(1, '')
             yield scrapy.Request(newURL, callback=self.getReferURL)
         except:
-            self.mysql.updatePassList(self.PassId, 7)
+            self.mysql.updatePassList(self.PassId, 100000)
             yield scrapy.Request(self.start_urls[0], dont_filter=True, callback=self.parse)
 
 
