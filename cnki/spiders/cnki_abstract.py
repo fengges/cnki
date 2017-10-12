@@ -58,20 +58,20 @@ class CnkiListSpider(scrapy.Spider):
         for url in citeList:
             item = CnkiListPassItem()
             item['url'] = 'http://kns.cnki.net' + self.setValue(url.xpath('./@href'), '')
-            item['name'] = self.setValue(url.xpath("./text()"), '')
-            item['citeUrl'] = self.url
-            item['download'] = '0'
-            item['pubdata'] = ''
-            item['source'] = ''
-            item['cite'] = 0
-            item['type'] = 5
-            item['num'] = 7
+            # item['name'] = self.setValue(url.xpath("./text()"), '')
+            # item['citeUrl'] = self.url
+            # item['download'] = '0'
+            # item['pubdata'] = ''
+            # item['source'] = ''
+            # item['cite'] = 0
+            # item['type'] = 5
+            # item['num'] = 7
             citeItem = CnkiCiteItem()
             citeItem['citeId'] = self.PassId
             citeItem['citeUrl'] = item['url']
             citeItem['type'] = 5
             yield citeItem
-            yield item
+            # yield item
         self.mysql.updatePassList(self.PassId, 10000)
 
     def getAbstract(self,response):
@@ -127,21 +127,21 @@ class CnkiListSpider(scrapy.Spider):
         for url in citeList:
             item = CnkiListPassItem()
             item['url'] = 'http://kns.cnki.net'+self.setValue(url.xpath('./@href'),'')
-            item['name'] = self.setValue(url.xpath("./text()"),'')
-            item['citeUrl'] = self.url
-            item['download']='0'
-            item['pubdata']=''
-            item['source']=''
-            item['cite']=0
-            item['type'] = 4
-            item['num'] = 5
+            # item['name'] = self.setValue(url.xpath("./text()"),'')
+            # item['citeUrl'] = self.url
+            # item['download']='0'
+            # item['pubdata']=''
+            # item['source']=''
+            # item['cite']=0
+            # item['type'] = 4
+            # item['num'] = 5
             citeItem = CnkiCiteItem()
             citeItem['citeId'] = self.PassId
             citeItem['citeUrl'] = item['url']
             citeItem['type'] = 4
             # print(item)
             yield citeItem
-            yield item
+            # yield item
         if 'page=' in response.url:
             pass
         else:
