@@ -5,7 +5,7 @@ class Mysql(object):
         host='localhost',
         port=3306,
         user='root',
-        passwd='Cr648546845',
+        passwd='123456',
         db='cnki',
         charset='utf8'
 )
@@ -35,6 +35,11 @@ class Mysql(object):
             self.cursor.execute(sql,params)
             self.connect.commit()
 
+    def insertKey(self,item):
+        sql = "INSERT INTO key_zhicai  VALUES (NULL,%s,%s,%s,now())  ON DUPLICATE KEY UPDATE num=num+1"
+        params = (item['word'])
+        self.cursor.execute(sql, params)
+        self.connect.commit()
 
     # 论文链接操作
 

@@ -115,7 +115,7 @@ class CnkiPassSpider(scrapy.Spider):
         fp.write(response.body)
         fp.close()
         code=readCode()
-        self.num+=1
+        #self.num+=1
         back=self.prase_code
         if self.num==4:
             self.goSleep(60)
@@ -124,7 +124,10 @@ class CnkiPassSpider(scrapy.Spider):
             back=self.spider_start
             yield scrapy.Request('https://www.baidu.com',cookies={}, dont_filter=True, callback=back)
         else:
+            str="&skey=CheckMaxTurnPageCount"
             url='http://kns.cnki.net/kns/brief/vericode.aspx?rurl='+'https://www.baidu.com'+'&vericode='+code
+            if self.page>=60:
+                url=url+str
             yield scrapy.Request(url,dont_filter=True, callback=back)
 
     def prase_code(self, response):
