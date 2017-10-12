@@ -9,8 +9,7 @@ from cnki.Pic_distinguish import readCode
 from libsvm.python.svmutil import *
 from libsvm.python.svm import *
 from scrapy.http import Request
-from cnki.items import CnkiListPassItem
-from cnki.items import CnkiKeyWordItem
+from cnki.items import *
 from cnki.spiders.mysql import Mysql
 
 class CnkiPassSpider(scrapy.Spider):
@@ -19,7 +18,7 @@ class CnkiPassSpider(scrapy.Spider):
     keyword=''
     page=1
     allPage=1
-    num=1
+    num=0
     QueryID=0
     allowed_domains = ['http://www.cnki.net','www.cnki.net','kns.cnki.net','http://www.baidu.com','www.baidu.com','search.cnki.net']
     start_urls = ['http://www.cnki.net']
@@ -58,10 +57,25 @@ class CnkiPassSpider(scrapy.Spider):
     # 循环爬取数据
     def prase_list(self,response):
         if "vericode.aspx" in response.url:# 是否用验证码
-            print("下载验证码，识别验证码")
-            pic_url = 'http://kns.cnki.net/kns/checkcode.aspx?t'
-            yield scrapy.Request(pic_url,dont_filter=True, callback=self.spider_code)
+            if self.num==4:
+                zui=CnkiKeyItem()
+                zui['word']=self.keyword
+                zui['page']=self.page
+                zui['allpage']=self.allPage
+                yield zui
+                self.page = 1
+                self.mysql.updateKeyWord(self.getKeyWord())
+                self.keyword = ''
+                print("update keyword")
+                # self.goSleep(60)
+                yield scrapy.Request(self.start_urls[0],dont_filter=True, callback=self.spider_start)
+            else:
+                self.num+=1
+                print("下载验证码，识别验证码")
+                pic_url = 'http://kns.cnki.net/kns/checkcode.aspx?t'
+                yield scrapy.Request(pic_url,dont_filter=True, callback=self.spider_code)
         else:
+            self.num =0
             if "brief.aspx?pagename=ASP.brief_default_result_aspx&dbPrefix=SCDB" in response.url:  # 判断是否是第一页，获取总页数和查询id
                 num = response.xpath("//div[@class='pagerTitleCell']/text()").extract()[0]
                 num = int(re.sub(r'\D', "", num))
@@ -104,7 +118,6 @@ class CnkiPassSpider(scrapy.Spider):
                 self.keyword = ''
                 print("update keyword")
                 # self.goSleep(60)
-
                 yield scrapy.Request(self.start_urls[0],dont_filter=True, callback=self.spider_start)
             else :
                 url = self.getPageUrl(response)
@@ -115,20 +128,8 @@ class CnkiPassSpider(scrapy.Spider):
         fp.write(response.body)
         fp.close()
         code=readCode()
-        #self.num+=1
-        back=self.prase_code
-        if self.num==4:
-            self.goSleep(60)
-            self.num=1
-            self.keyword=''
-            back=self.spider_start
-            yield scrapy.Request('https://www.baidu.com',cookies={}, dont_filter=True, callback=back)
-        else:
-            str="&skey=CheckMaxTurnPageCount"
-            url='http://kns.cnki.net/kns/brief/vericode.aspx?rurl='+'https://www.baidu.com'+'&vericode='+code
-            if self.page>=60:
-                url=url+str
-            yield scrapy.Request(url,dont_filter=True, callback=back)
+        url='http://kns.cnki.net/kns/brief/vericode.aspx?rurl='+'https://www.baidu.com'+'&vericode='+code
+        yield scrapy.Request(url,dont_filter=True, callback=self.prase_code)
 
     def prase_code(self, response):
         yield scrapy.Request(self.getPageUrl(response), dont_filter=True, callback=self.prase_list)

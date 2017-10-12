@@ -36,8 +36,8 @@ class Mysql(object):
             self.connect.commit()
 
     def insertKey(self,item):
-        sql = "INSERT INTO key_zhicai  VALUES (NULL,%s,%s,%s,now())  ON DUPLICATE KEY UPDATE num=num+1"
-        params = (item['word'])
+        sql = "INSERT INTO key_zhicai  VALUES (NULL,%s,%s,%s,now()) "
+        params = (item['word'],item['page'],item['allpage'])
         self.cursor.execute(sql, params)
         self.connect.commit()
 
