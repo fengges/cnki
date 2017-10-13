@@ -99,12 +99,28 @@ class CnkiListSpider(scrapy.Spider):
             #基金
             item_abstract['fund'] = ",".join(response.xpath("//label[@id='catalog_FUND']/following-sibling::*/text()").extract())
             # print ("fund：",fund)
-            #关键词
+            #关键词-存入keyword表
             item_keyword['word'] = "".join(response.xpath("//label[@id='catalog_KEYWORD']/following-sibling::*/text()").extract())
             keyword = "".join(response.xpath("//label[@id='catalog_KEYWORD']/following-sibling::*/text()").extract())
             item_keyword['word'] = keyword.strip()
             item_keyword['num']=5
-
+            #关键词合集-存入abstract表
+            sunK = ""
+            key = keyword.strip().split(';')
+            for k in key:
+                k = k.strip()
+                sunK = sunK + k + ","
+            # print (sunK)
+            if len(sunK) < 255:
+                item_abstract['keyword'] = sunK
+            else:
+                item_abstract['keyword'] = ""
+            #下载数
+            download = int(response.xpath("//span[@class='a']/b/text()").extract()[0])
+            if download >= 0:
+                item_abstract['download'] = download
+            else:
+                item_abstract['download'] = ""
 
             yield item_keyword
             yield item_abstract

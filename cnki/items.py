@@ -54,4 +54,7 @@ class CnkiAbstractItem(scrapy.Item):
     organization=scrapy.Field()
     abstract=scrapy.Field()
     fund=scrapy.Field()
+    keyword = scrapy.Field()
+    download = scrapy.Field()
+
     pass
