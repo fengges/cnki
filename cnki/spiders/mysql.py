@@ -16,7 +16,7 @@ class Mysql(object):
 
     #获取关键字
     def getKeyWord(self):
-        sql = "SELECT word from keyword  WHERE search=0 and num=(select max(num) from keyword where  search=0 ) "
+        sql = "SELECT word from keyword  WHERE search=0 order by num desc  LIMIT 0,1"
         self.cursor.execute(sql)
         return self.cursor.fetchone()[0]
 
@@ -65,7 +65,7 @@ class Mysql(object):
 
     # 获取论文摘要链接
     def getPassAbstractUrl(self):
-        sql = "SELECT id,url from url_list  WHERE (search =0 or search=1 ) and num=(select max(num) from url_list where search =0 or search=1 )"
+        sql = "SELECT id,url from url_list  WHERE (search =0 or search=1 )   LIMIT 0,1"
         self.cursor.execute(sql)
         return self.cursor.fetchone()
 
